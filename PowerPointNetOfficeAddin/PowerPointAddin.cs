@@ -39,7 +39,14 @@ namespace PowerPointNetOfficeAddin
             }
             catch (Exception exception)
             {
-                MessageBox.Show($"Failed to retrieve window handle. Exception: {exception.Message}", "PowerPoint NetOffice Add-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var message = $"Exception: {exception.Message}";
+                var currentEx = exception;
+                while (currentEx.InnerException != null)
+                {
+                    currentEx = currentEx.InnerException;
+                    message += $"\n  {currentEx.Message}";
+                }
+                MessageBox.Show($"Failed to retrieve window handle. {message}", "PowerPoint NetOffice Add-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
